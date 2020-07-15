@@ -1,0 +1,39 @@
+/** @format */
+
+.btn{
+  margin-top: 1rem;
+}
+body {
+  background-color: #003865;
+
+}
+.main-box {
+  background-color: #003865;
+
+}
+.second-box {
+  background-color: #003865;
+  width: 50vw;
+  height: 80vh;
+  text-align: center;
+  margin: auto;
+  color: white;
+  margin-top: 50px;
+}
+
+.s-img {
+  width: 300px;
+  height: 160px;;
+  text-align: center;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  width: 20%;
+}
+.form-control {
+  display: inline-block;
+  width: 60%;
+
+}

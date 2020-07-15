@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Google Map</title>
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Google Map</h1>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      // Map options
+      var options = {
+        zoom: 10,
+        center: {
+          lat: 30.0444,
+          lng: 31.2357
+        }
+      }
+
+      // New map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+      // Array of markers
+      var markers = [{
+          coords: {
+            lat: 29.983333,
+            lng: 31.133333
+          },
+          content: '<h1>الاهرامات المصرية</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.975277777778,
+            lng: 31.137777777778
+          },
+          content: '<h1>ابو الهول</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.87111,
+            lng: 31.21639
+          },
+          content: '<h1>هرم سقارة المدرج</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.80833,
+            lng: 31.20583
+          },
+          content: '<h1>الهرم الاحمر</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.9781,
+            lng: 31.1344
+          },
+          content: '<h1>متحف مركب الشمس</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.21389722,
+            lng: 30.02453333
+          },
+          content: '<h1>حديقة الحيوانات بالجيزة</h1>'
+        },
+
+        {
+          coords: {
+            lat: 30.0292,
+            lng: 31.2131
+          },
+          content: '<h1>حديقة الارومان</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.96111,
+            lng: 31.01806
+          },
+          content: '<h1>مدينة الانتاج الاعلامي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 30.062278,
+            lng: 31.216417
+          },
+          content: '<h1>ساقة الصاوي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.33,
+            lng: 29.01
+          },
+          content: '<h1>الواحات البحرية</h1>'
+        },
+
+        {
+          coords: {
+            lat: 12.28,
+            lng: 37.1535
+          },
+          content: '<h1>نهر النيل</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.1247,
+            lng: 29.537
+          },
+          content: '<h1>قلعة قايتباي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.1232,
+            lng: 29.5433
+          },
+          content: '<h1>مكتبة الاسكندرية</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.1825,
+            lng: 29.8965
+          },
+          content: '<h1>عمود السواري</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.2011,
+            lng: 29.9132
+          },
+          content: '<h1>متحف الاسكندرية القومي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.19925,
+            lng: 29.906861111111
+          },
+          content: '<h1>المتحف اليوناني الروماني</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.1427,
+            lng: 29.5747
+          },
+          content: '<h1>متحف المجوهرات الملكية</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.2128,
+            lng: 29.8851
+          },
+          content: '<h1>متحف الاحياء المائية</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.12831,
+            lng: 29.57296
+          },
+          content: '<h1>حدائق انطونياس</h1>'
+        },
+
+        {
+          coords: {
+            lat: 31.235023,
+            lng: 29.948515
+          },
+          content: '<h1>كوبري ستانلي</h1>'
+        },
+        {
+          coords: {
+            lat: 31.1536,
+            lng: 30.041
+          },
+          content: '<h1>الكاتدرائية المرقسية بالاسكندرية</h1>'
+        },
+        {
+          coords: {
+            lat: 27.4416,
+            lng: 30.5037
+          },
+          content: '<h1>متحف ملوي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 27.462798,
+            lng: 30.48400
+          },
+          content: '<h1>الاشمونين</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.32701,
+            lng: 30.393802
+          },
+          content: '<h1>البهنسا</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.165002,
+            lng: 30.445100
+          },
+          content: '<h1>دير السيدة العذراء جبل الطير</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.437,
+            lng: 32.3927
+          },
+          content: '<h1>معبد الكرنك</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.70000,
+            lng: 32.63917
+          },
+          content: '<h1>معبد الاقصر</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.4418,
+            lng: 32.3628
+          },
+          content: '<h1>معبد الدير البحري</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.442490,
+            lng: 32.36850
+          },
+          content: '<h1>وادي الملوك </h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.4339,
+            lng: 32.3535
+          },
+          content: '<h1>وادي الملكات</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.72056,
+            lng: 32.61056
+          },
+          content: '<h1>تمثال امون</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.4344,
+            lng: 32.3605
+          },
+          content: '<h1>دير المدينة</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.70806,
+            lng: 32.64444
+          },
+          content: '<h1>متحف التحنيط</h1>'
+        },
+
+        {
+          coords: {
+            lat: 25.4312,
+            lng: 32.3603
+          },
+          content: '<h1>مدينة هابو</h1>'
+        },
+
+        {
+          coords: {
+            lat: 22.2013,
+            lng: 31.3732
+          },
+          content: '<h1>معبد ابوسمبل</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.0115,
+            lng: 32.5322
+          },
+          content: '<h1>معبد الفيلة</h1>'
+        },
+
+        {
+          coords: {
+            lat: 23.97,
+            lng: 32.877
+          },
+          content: '<h1>السد العالي</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.0769111,
+            lng: 32.8954444
+          },
+          content: '<h1>المسلة الناقصة</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.08000,
+            lng: 32.88944
+          },
+          content: '<h1>متحف النوبة</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.4521972,
+            lng: 32.9283750
+          },
+          content: '<h1>متحف كوم امبو</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.0520,
+            lng: 32.5320
+          },
+          content: '<h1>جزيرة الفتين</h1>'
+        },
+
+        {
+          coords: {
+            lat: 24.0336,
+            lng: 32.5216
+          },
+          content: '<h1>جزيرة سهيل</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.50,
+            lng: 34.50
+          },
+          content: '<h1>دهب</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.87361,
+            lng: 34.45861
+          },
+          content: '<h1>محمية ابو جالوم</h1>'
+        },
+
+        {
+          coords: {
+            lat: 29.02,
+            lng: 34.65
+          },
+          content: '<h1>نوبيع</h1>'
+        },
+
+        {
+          coords: {
+            lat: 27.7222,
+            lng: 34.2539
+          },
+          content: '<h1>محمية راس محمد</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.3320,
+            lng: 33.5834
+          },
+          content: '<h1>دير سانت كاترين</h1>'
+        },
+
+        {
+          coords: {
+            lat: 28.3223,
+            lng: 33.5824
+          },
+          content: '<h1>جبل موسي</h1>'
+        }
+      ];
+
+      // Loop through markers
+      for (var i = 0; i < markers.length; i++) {
+        // Add marker
+        addMarker(markers[i]);
+      }
+
+      // Add Marker Function
+      function addMarker(props) {
+        var marker = new google.maps.Marker({
+          position: props.coords,
+          map: map,
+          //icon:props.iconImage
+        });
+
+        // Check for customicon
+        if (props.iconImage) {
+          // Set icon image
+          marker.setIcon(props.iconImage);
+        }
+
+        // Check content
+        if (props.content) {
+          var infoWindow = new google.maps.InfoWindow({
+            content: props.content
+          });
+
+          marker.addListener('click', function() {
+            infoWindow.open(map, marker);
+          });
+        }
+      }
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJR57yeDvMlSszMII3zkd_45Af_RG2GrM&callback=initMap"allowfullscreen>
+  </script>
+</body>
+
+</html>
