@@ -1,4 +1,4 @@
 module.exports = {
-  database:'mongodb+srv://admin-remon:remon123@cluster0.tqiej.mongodb.net/tourGlaxyDB',
+  database:'mongodb+srv://admin-remonr:remon125@tourglaxy.ku8ic.mongodb.net/tourGlaxyDB?retryWrites=true&w=majority',
   secret: 'yoursecret'
 }

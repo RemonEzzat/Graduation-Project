@@ -336,6 +336,7 @@ const giza15 = new Places ({
 
 
 });
+
 const luxor1 = new Places ({
 
         placeName: "– معبد الكرنك",
@@ -423,6 +424,7 @@ const luxor3 = new Places ({
 
 
             });
+
 
             const southofSinaa1 = new Places ({
 
