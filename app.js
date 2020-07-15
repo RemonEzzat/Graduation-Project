@@ -111,15 +111,15 @@ app.get('/auth/facebook', passport.authenticate('facebook', {
 
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/profile',
-    failureRedirect: '/'
+    successRedirect: '/',
+    failureRedirect: '/users/login'
   }));
 
 app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 
 app.get('/auth/google/callback',
-passport.authenticate('google', { successRedirect: '/profile',
-                                    failureRedirect: '/' }));
+passport.authenticate('google', { successRedirect: '/',
+                                    failureRedirect: '/users/login' }));
 
 
 app.get("/place", function(req, res) {
