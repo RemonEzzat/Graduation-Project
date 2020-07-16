@@ -168,10 +168,6 @@ app.get("/map",function(req,res){
   app.use('/users', users);
 
 // Start Server
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3000;
-}
-app.listen(port, function(){
-  console.log('Server started ...');
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
