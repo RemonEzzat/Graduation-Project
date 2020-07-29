@@ -1,28 +1,19 @@
+//jshint esversion:6
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database');
 const _ = require('lodash');
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-
-
-const { document } = (new JSDOM('')).window;
-global.document = document;
-
-
-
-
+const bcrypt = require('bcrypt');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect(config.database);
-
 
 let db = mongoose.connection;
 
@@ -43,6 +34,7 @@ const app = express();
 
 const Places = require('./models/places')
 const Clenders = require('./models/clenders')
+const Users = require('./models/user')
 
 // Load View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -71,24 +63,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Express Validator Middleware
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
-
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
-
 // Passport Config
 require('./config/passport')(passport);
 // Passport Middleware
@@ -104,6 +78,67 @@ app.get('*', function(req, res, next){
 app.get('/', function(req, res){
   res.render("index");
 });
+// Register Route
+app.get("/users/register", function(req, res) {
+  res.render("register")
+});
+//Register Process
+app.post("/users/register", function(req, res) {
+
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const username = req.body.username;
+  const password = req.body.password;
+  const dateOfbirth = req.body.dateOfbirth;
+  const phone = req.body.phone;
+  const gender = req.body.gender;
+
+    const newUser = new Users({
+      firstname:firstname,
+      lastname:lastname,
+      email:email,
+      username:username,
+      password:password,
+      phone:phone,
+      dateOfbirth:dateOfbirth,
+      gender:gender
+    });
+
+    bcrypt.genSalt(10, function(err, salt){
+      bcrypt.hash(newUser.password, salt, function(err, hash){
+        if(err){
+          console.log(err);
+          console.log(newUser);
+        }
+        newUser.password = hash;
+        newUser.save(function(err){
+          if(err){
+            console.log(err);
+            return;
+          } else {
+            req.flash('success','You are now registered and can log in');
+            res.redirect('/users/login');
+          }
+        });
+      });
+    });
+
+});
+// Login Form
+app.get('/users/login', function(req, res){
+  res.render('login');
+});
+
+// Login Process
+app.post('/users/login', function(req, res, next){
+  passport.authenticate('local', {
+    successRedirect:'/',
+    failureRedirect:'/users/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
 
 app.get('/auth/facebook', passport.authenticate('facebook', {
   scope: ['email']
@@ -163,9 +198,6 @@ app.get("/details/:placeId", function(req, res){
 app.get("/map",function(req,res){
   res.render("map")
 })
-  // Route Files
-  let users = require('./routes/users');
-  app.use('/users', users);
 
 // Start Server
 

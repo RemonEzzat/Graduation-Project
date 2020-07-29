@@ -1,18 +1,21 @@
+//jshint esversion:6
 const LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy
-
-const User = require('../models/user');
+const findOrCreate = require('mongoose-findorcreate');
+const Users = require('../models/user');
 const config = require('../config/database');
 const configAuth = require('../config/auth');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
+const UsersGF = require('../models/userGoogleFacebook');
+
 
 module.exports = function(passport){
   // Local Strategy
   passport.use(new LocalStrategy(function(username, password, done){
     // Match Username
     let query = {username:username};
-    User.findOne(query, function(err, user){
+    Users.findOne(query, function(err, user){
       if(err) throw err;
       if(!user){
         return done(null, false, {message: 'No user found'});
@@ -35,7 +38,7 @@ module.exports = function(passport){
   });
 
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+    Users.findById(id, function(err, user) {
       done(err, user);
     });
   });
@@ -51,13 +54,13 @@ module.exports = function(passport){
   },
   function(accessToken, refreshToken, profile, done) {
       process.nextTick(function(){
-        User.findOne({'facebook.id': profile.id}, function(err, user){
+        UsersGF.findOne({'facebook.id': profile.id}, function(err, user){
           if(err)
             return done(err);
           if(user)
             return done(null, user);
           else {
-            var newUser = new User();
+            var newUser = new UsersGF();
             newUser.facebook.id = profile.id;
             newUser.facebook.token = accessToken;
             newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
@@ -84,17 +87,18 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
       process.nextTick(function(){
-        User.findOne({'google.id': profile.id}, function(err, user){
+        UsersGF.findOne({'google.id': profile.id}, function(err, user){
           if(err)
             return done(err);
           if(user)
             return done(null, user);
           else {
-            var newUser = new User();
+            var newUser = new UsersGF();
             newUser.google.id = profile.id;
             newUser.google.token = accessToken;
             newUser.google.name = profile.displayName;
             newUser.google.email = profile.emails[0].value;
+           
 
             newUser.save(function(err){
               if(err)
@@ -108,7 +112,5 @@ passport.use(new GoogleStrategy({
     }
 
 ));
-
-
 
 };
